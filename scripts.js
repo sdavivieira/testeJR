@@ -1,3 +1,4 @@
+
 'use strict'
 
 const openModal = () => document.getElementById('modal')
@@ -80,6 +81,7 @@ const createRow = (client, index) => {
             <button type="button" class="button blue" id="pedido-${index}" >Pedido</button> 
         </td>
     `
+    
     //falta criar o pedido do cliente
     document.querySelector('#tableClient>tbody').appendChild(newRow)
 }
@@ -102,6 +104,13 @@ const fillFields = (client) => {
     document.getElementById('cidade').value = client.cidade
     document.getElementById('nome').dataset.index = client.index
 }
+const requestClient = (client) => {
+    document.getElementById('nome').value = client.nome
+    document.getElementById('email').value = client.email
+    document.getElementById('celular').value = client.celular
+    document.getElementById('cidade').value = client.cidade
+    document.getElementById('nome').dataset.index = client.index
+}
 
 const editClient = (index) => {
     const client = readClient()[index]
@@ -110,6 +119,12 @@ const editClient = (index) => {
     openModal()
 }
 
+const ClientRequest = (index) => {
+    const client = readClient()[index]
+    client.index = index
+    requestClient(client)
+    openModal()
+}
 const editDelete = (event) => {
     if (event.target.type == 'button') {
 
@@ -117,7 +132,10 @@ const editDelete = (event) => {
 
         if (action == 'edit') {
             editClient(index)
-        } else {
+        } else if (action == 'pedido') {
+            ClientRequest(index)
+        }
+        else {
             const client = readClient()[index]
             const response = confirm(`Deseja realmente excluir o cliente ${client.nome}`)
             if (response) {
